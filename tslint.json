@@ -1,0 +1,108 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "max-line-length": {
+            "options": [
+                120
+            ]
+        },
+        "adjacent-overload-signatures": true,
+        "member-access": true,
+        "no-reference": true,
+        "promise-function-async": true,
+        "ban-comma-operator": true,
+        "member-ordering": [
+            true,
+            {
+                "order": [
+                    "public-static-field",
+                    "protected-static-field",
+                    "private-static-field",
+                    "public-static-method",
+                    "protected-static-method",
+                    "private-static-method",
+                    "public-instance-field",
+                    "protected-instance-field",
+                    "private-instance-field",
+                    "public-constructor",
+                    "protected-constructor",
+                    "private-constructor",
+                    "public-instance-method",
+                    "protected-instance-method",
+                    "private-instance-method"
+                ],
+                "alphabetize": false
+            }
+        ],
+        "no-construct": true,
+        "no-duplicate-super": true,
+        "no-duplicate-switch-case": true,
+        "no-duplicate-variable": true,
+        "no-duplicate-imports": true,
+        "no-floating-promises": true,
+        "no-implicit-dependencies": [
+            true,
+            "dev",
+            [
+                "@app"
+            ]
+        ],
+        "no-invalid-template-strings": true,
+        "no-invalid-this": true,
+        "no-misused-new": true,
+        "no-string-throw": true,
+        "no-this-assignment": true,
+        "no-unbound-method": true,
+        "no-unsafe-finally": true,
+        "no-var-keyword": true,
+        "static-this": true,
+        "triple-equals": true,
+        "deprecation": true,
+        "prefer-const": true,
+        "prefer-readonly": true,
+        "binary-expression-operand-order": true,
+        "class-name": true,
+        "interface-name": true,
+        "ordered-imports": true,
+        "prefer-template": true,
+        "prefer-while": true,
+        "align": [
+            true,
+            "statements",
+            "members",
+            "elements"
+        ],
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ],
+        "eofline": true,
+        "indent": [
+            true,
+            "spaces",
+            4
+        ],
+        "linebreak-style": [
+            true,
+            "LF"
+        ],
+        "new-parens": true,
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": true,
+        "max-classes-per-file": false,
+        "no-namespace": false,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        ],
+        "no-string-literal": false,
+        "object-literal-sort-keys": false,
+        "radix": false
+    }
+}
