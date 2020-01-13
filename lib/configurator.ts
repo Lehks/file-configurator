@@ -1,19 +1,35 @@
 import fs from 'fs';
 import HeaderParser from './header-parser';
-import types, { IProcessedSwitch } from './typings/typings';
+import types from './typings/typings';
 
 namespace Configurator {
+    /**
+     * The options that can be passed to `configure()`.
+     */
     export interface IFileConfigOptions {
+        /**
+         * The encoding of the file. Defaults to `utf-8`.
+         */
         encoding?: string;
+
+        /**
+         * Decides whether the file should be cached. Defaults to `false`.
+         */
         cache?: boolean;
     }
 
-    export interface IProcessedFileConfigOptions {
+    interface IProcessedFileConfigOptions {
         encoding: string;
         cache: boolean;
     }
 
+    /**
+     * The context that can be passed to `configure()` and `configureString()`.
+     */
     export interface IContext {
+        /**
+         * A single context entry.
+         */
         [key: string]: string;
     }
 
@@ -24,6 +40,15 @@ namespace Configurator {
 
     const cache: {[key: string]: string} = {};
 
+    /**
+     * Configures the contents of a file.
+     *
+     * @param path The path to the input file.
+     * @param context The context object.
+     * @param options Optional options that control the file encoding and cache usage.
+     *
+     * @returns The configured file content as string.
+     */
     export async function configure(path: string, context: IContext, options?: IFileConfigOptions): Promise<string> {
         const processOptions = makeOptions(options);
         const input = loadFile(path, processOptions.encoding);
@@ -32,6 +57,14 @@ namespace Configurator {
         return configureString(input, context);
     }
 
+    /**
+     * Configures the contents of a string.
+     *
+     * @param input The input string. This string will not be changed.
+     * @param context The context object.
+     *
+     * @returns The configured input.
+     */
     export async function configureString(input: string, context: IContext): Promise<string> {
         const header = await HeaderParser.getHeader(input);
         const ret = input.substring(header.raw.length);
@@ -159,7 +192,7 @@ namespace Configurator {
             return undefined;
         }
 
-        const ret: IProcessedSwitch = {
+        const ret: types.IProcessedSwitch = {
             cases: switchData.cases,
             default: switchData.default === undefined ? DEFAULT_SWITCH_DEFAULT : switchData.default
         };

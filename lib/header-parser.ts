@@ -1,4 +1,3 @@
-import path from 'path';
 import JSONValidator from './json-validator';
 import types from './typings/typings';
 
