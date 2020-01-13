@@ -4,7 +4,8 @@
     "description": "A glorified search-and-replace tool for files and strings.",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
@@ -16,5 +17,13 @@
     "bugs": {
         "url": "https://github.com/Lehks/file-configurator/issues"
     },
-    "homepage": "https://github.com/Lehks/file-configurator#readme"
+    "homepage": "https://github.com/Lehks/file-configurator#readme",
+    "devDependencies": {
+        "@types/node": "^13.1.6",
+        "tslint": "^5.20.1",
+        "typescript": "^3.7.4"
+    },
+    "dependencies": {
+        "ajv": "^6.10.2"
+    }
 }
