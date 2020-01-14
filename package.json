@@ -2,18 +2,22 @@
     "name": "file-configurator",
     "version": "1.0.0",
     "description": "A glorified search-and-replace tool for files and strings.",
-    "main": "index.js",
+    "main": "dist/lib/configurator.js",
+    "typings": "dist/lib/configurator.d.ts",
     "scripts": {
         "test": "jest",
-        "build": "tsc"
+        "build": "tsc",
+        "prepack": "npm run build"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Lehks/file-configurator.git"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": [
+        "util"
+    ],
+    "author": "Lukas Reichmann",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/Lehks/file-configurator/issues"
     },

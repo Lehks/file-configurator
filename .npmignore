@@ -1,0 +1,8 @@
+/.gitignore
+/.gitattributes
+/.vscode
+/coverage
+/lib
+/test
+/tsconfig.json
+/tslint.json
