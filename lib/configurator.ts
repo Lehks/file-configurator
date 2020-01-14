@@ -1,5 +1,5 @@
 import fs from 'fs';
-import keyDataSchema from '../key-data.schema.json';
+import keyDataSchema from '../schemas/key-data.schema.json';
 import HeaderParser from './header-parser';
 import JSONValidator from './json-validator';
 import types from './typings/typings';

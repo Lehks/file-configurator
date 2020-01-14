@@ -1,8 +1,8 @@
 import JSONValidator from './json-validator';
 import types from './typings/typings';
 
-import headerSchema from '../header.schema.json';
-import keyDataSchema from '../key-data.schema.json';
+import headerSchema from '../schemas/header.schema.json';
+import keyDataSchema from '../schemas/key-data.schema.json';
 
 namespace HeaderParser {
     const HEADER_TAG = '\\[header\\]';

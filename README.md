@@ -14,6 +14,7 @@ The module is intended to work with file contents and not strings that are defin
     - [Attaching Metadata](#attaching-metadata)
     - [Header](#header)
     - [Example](#example)
+- [JSON schema files](#json-schema-files)
 
 ## Installation
 ```
@@ -154,3 +155,6 @@ The following text will be 'undefined': undefined.
 
 The case that was chosen is the 'second case'.
 ```
+
+## JSON schema files
+The JSON schema files that are used to validate key JSON data and header data can be found in the directory `schemas` in the root directory of the module.
