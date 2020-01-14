@@ -51,7 +51,7 @@ This is what happened:
 The following functions are available for usage:
 - `.configure(path, context, options)`: Reads the file from `path` and configures its contents. The configured file contents will be returned as string in a promise.
     - `path`: The path to the file.
-    - `context`: The context object. This is an object with strings as both keys and values.
+    - `context`: The context object. This is an object with strings as keys and strings or string arrays as values.
     - `options`: Additional options. Allowed keys are:
         - `encoding`: The encoding of the input file. Type is `string`. Default is `utf-8`.
         - `cache`: Whether the loaded file will be cached. Type is `boolean`. Default is `false`. See chapter [caching](#caching) for further information.
@@ -84,13 +84,14 @@ In this case, the key name is string `myKey`. The attached JSON data is
 ```
 
 There are a lot of predefined keys that can be used in this JSON data:
-- `padLeft`: A string that will be placed left of the replacement value. Type is `string`. Default is an empty string.
-- `padRight`: A string that will be placed right of the replacement value. Type is `string`. Default is an empty string.
+- `padLeft`: A string that will be placed left of the replacement value. Type is `string`. Default is an empty string. If the value type is an array, then the padding will be applied to each line before joining them.
+- `padRight`: A string that will be placed right of the replacement value. Type is `string`. Default is an empty string. If the value type is an array, then the padding will be applied to each line before joining them.
 - `ignoreIfUndefined`: If the replacement value is `undefined`, then the key will be replaced with the value in `ignoreIfUndefinedReplacement` (Since `ignoreIfUndefinedReplacement` is an empty string by default, the behavior of `ignoreIfUndefined` is usually that the key will simply be removed from the input, hence the term 'ignore'). Type is `boolean`. Default is `true`.
 - `ignoreIfUndefinedReplacement`: The value that will be used as replacement value if the rule `ignoreIfUndefinedReplacement` is triggered. Note that this value will not be padded by the value(s) in `padLeft` and `padRight`.
-- `switch`: When this key is used, the behavior of the replacement will be changed entirely. Instead of using the value in the context as replacement value, it will be used as a condition to select the actual value from a list of predefined values. The type is object, see the following properties. The default is `undefined` - i.e. the default behavior will be used instead of the switch behavior. The behavior of a switch replacement is rather similar to that of a `switch` statement from a programming language like JavaScript.
+- `switch`: When this key is used, the behavior of the replacement will be changed entirely. Instead of using the value in the context as replacement value, it will be used as a condition to select the actual value from a list of predefined values. The type is object, see the following properties. The default is `undefined` - i.e. the default behavior will be used instead of the switch behavior. The behavior of a switch replacement is rather similar to that of a `switch` statement from a programming language like JavaScript. Only has an effect if the value type is a string.
 - `switch.cases`: An object that maps the possible values from the context to the values that will actually be used. Each key in this object is a possible value from the context and each value is its corresponding replacement value. The type is an object, that has strings as both keys and values. This property is always required, hence no default.
 - `switch.default`: The replacement value that will be used if none of the cases in `switch.cases` match the context-value. The type is string. Default is an empty string.
+- `arrayJoin`: A string that will be used to join the values in an array. Only has any effect if the value type is an array.
 
 ### Header
 As described before, it is possible to attach JSON data to a key. However, depending on the attached data, the JSON will be made of quite a lot characters (which makes it hard to read, especially because no line breaks are allowed).

@@ -14,6 +14,7 @@ export interface IData {
     ignoreIfUndefined?: boolean;
     ignoreIfUndefinedReplacement?: string;
     switch?: ISwitch;
+    arrayJoin?: string;
 }
 
 export interface IProcessedData {
@@ -22,6 +23,7 @@ export interface IProcessedData {
     ignoreIfUndefined: boolean;
     ignoreIfUndefinedReplacement: string;
     switch?: IProcessedSwitch;
+    arrayJoin: string;
 }
 
 export interface ISwitch {

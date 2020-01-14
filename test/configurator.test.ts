@@ -107,22 +107,6 @@ it('should select the default case in a switch statement if necessary', async ()
     })).resolves.toBe('The selected case is: default-case.');
 });
 
-it('should select the default case in a switch statement if necessary (if key does not exist in context)', async () => {
-    const data = {
-        switch: {
-            cases: {
-                first: 'first-case',
-                second: 'second-case'
-            },
-            default: 'default-case'
-        }
-    };
-
-    const input = `The selected case is: @key:${JSON.stringify(data)}@.`;
-
-    await expect(Configurator.configureString(input, {})).resolves.toBe('The selected case is: default-case.');
-});
-
 it('should default the default case in a switch statement to an empty string', async () => {
     const data = {
         switch: {
@@ -136,6 +120,20 @@ it('should default the default case in a switch statement to an empty string', a
     const input = `The selected case is: @key:${JSON.stringify(data)}@.`;
 
     await expect(Configurator.configureString(input, {})).resolves.toBe('The selected case is: .');
+});
+
+it('should correctly pad and join arrays', async () => {
+    const data = {
+        padLeft: '>',
+        padRight: '<',
+        arrayJoin: '-'
+    };
+
+    const input = `The configured array is: @key:${JSON.stringify(data)}@.`;
+
+    await expect(Configurator.configureString(input, {
+        key: ['a', 'b', 'c']
+    })).resolves.toBe('The configured array is: >a<->b<->c<.');
 });
 
 it('should be able to use JSON data that is defined directly in the key', async () => {

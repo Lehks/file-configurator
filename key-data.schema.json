@@ -39,6 +39,9 @@
                             "type": "string"
                         }
                     }
+                },
+                "arrayJoin": {
+                    "type": "string"
                 }
             }
         }

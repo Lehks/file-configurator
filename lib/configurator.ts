@@ -32,7 +32,7 @@ namespace Configurator {
         /**
          * A single context entry.
          */
-        [key: string]: string;
+        [key: string]: string | string[];
     }
 
     interface IFullKey {
@@ -160,23 +160,31 @@ namespace Configurator {
 
         const data = processKeyData(getKeyData(key, header));
 
-        if (data.switch) {
-            // return default value if the contextValue is undefined
-            if (contextValue === undefined) {
-                return data.switch.default;
+        // undefined values behave the same for arrays and strings
+        if (contextValue === undefined) {
+            if (data.ignoreIfUndefined) {
+                return data.ignoreIfUndefinedReplacement;
             } else {
-                const caseValue = data.switch.cases[contextValue];
-                if (caseValue) {
-                    return caseValue;
-                } else {
-                    return data.switch.default;
-                }
+                return contextValue;
             }
-        }
-        if (data.ignoreIfUndefined && contextValue === undefined) {
-            return data.ignoreIfUndefinedReplacement;
+        } else if (typeof contextValue === 'string') {
+            if (data.switch) {
+                // return default value if the contextValue is undefined
+                if (contextValue === undefined) {
+                    return data.switch.default;
+                } else {
+                    const caseValue = data.switch.cases[contextValue];
+                    if (caseValue) {
+                        return caseValue;
+                    } else {
+                        return data.switch.default;
+                    }
+                }
+            } else {
+                return `${data.padLeft}${contextValue}${data.padRight}`;
+            }
         } else {
-            return `${data.padLeft}${contextValue}${data.padRight}`;
+            return contextValue.map(v => `${data.padLeft}${v}${data.padRight}`).join(data.arrayJoin);
         }
     }
 
@@ -199,6 +207,7 @@ namespace Configurator {
         const DEFAULT_PAD_RIGHT = '';
         const DEFAULT_IGNORE_IF_UNDEFINED = true;
         const DEFAULT_IGNORE_IF_UNDEFINED_REPLACEMENT = '';
+        const DEFAULT_ARRAY_JOIN = '';
 
         // iiu = ignore if undefined
         const iiuIn = data.ignoreIfUndefined;
@@ -213,7 +222,8 @@ namespace Configurator {
             padRight: data.padRight === undefined ? DEFAULT_PAD_RIGHT : data.padRight,
             ignoreIfUndefined: iiu,
             ignoreIfUndefinedReplacement: iiur,
-            switch: processSwitchData(data.switch)
+            switch: processSwitchData(data.switch),
+            arrayJoin: data.arrayJoin === undefined ? DEFAULT_ARRAY_JOIN : data.arrayJoin
         };
 
         return ret;
