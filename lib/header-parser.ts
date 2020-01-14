@@ -6,9 +6,9 @@ import keyDataSchema from '../key-data.schema.json';
 
 namespace HeaderParser {
     const HEADER_TAG = '\\[header\\]';
-    const HEADER_REGEX = new RegExp(`^\\s*?${HEADER_TAG}([\\s\\S]*?)${HEADER_TAG}`);
+    const HEADER_REGEX = new RegExp(`^${HEADER_TAG}([\\s\\S]*?)${HEADER_TAG}`);
 
-    export async function getHeader(input: string): Promise<types.IFullHeader> {
+    export function getHeader(input: string): types.IFullHeader {
 
         const headerContent = input.match(HEADER_REGEX);
 
@@ -19,10 +19,18 @@ namespace HeaderParser {
             }; // empty header
         }
 
+        // if there is no JSON in the header
+        if (headerContent[1].trim().length === 0) {
+            return {
+                processed: {},
+                raw: headerContent[0]
+            };
+        }
+
         const rawHeaderObject = JSON.parse(headerContent[1]);
 
         return {
-            processed: await JSONValidator.validate<types.IHeader>(rawHeaderObject, headerSchema, keyDataSchema),
+            processed: JSONValidator.validate<types.IHeader>(rawHeaderObject, headerSchema, keyDataSchema),
             raw: headerContent[0]
         };
     }

@@ -1,0 +1,7 @@
+
+This is some text. My value is: ->value<-.
+
+There is also a switch statement. The selected case: first-case.
+There is also another case: second-case.
+
+Additionally, there is another value with padding: ->value2<- and the same value as in the beginning: ->value<-.

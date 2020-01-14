@@ -1,13 +1,13 @@
 import Ajv from 'ajv';
 
 namespace JSONValidator {
-    export async function validate<T>(object: any, ...schemas: any[]): Promise<T> {
+    export function validate<T>(object: any, schema: any, ...additionalSchemas: any[]): T {
         const ajv = new Ajv({
-            schemas
+            schemas: [schema, ...additionalSchemas]
         });
 
-        const validateFunction = ajv.getSchema('header.schema.json');
-        const valid = await validateFunction(object);
+        const validateFunction = ajv.compile(schema);
+        const valid = validateFunction(object);
         delete (object as any).default; // remove default property which is added by ajv
 
         if (valid) {

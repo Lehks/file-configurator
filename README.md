@@ -95,9 +95,11 @@ As described before, it is possible to attach JSON data to a key. However, depen
 
 In order to resolve this issue, a header can be used. A header is a text block at the beginning of the file that can be used to declare JSON data. This header text block will not be part of the configured output.
 
-The header content is enclosed by `[header]` tags - one tag at the start and one at the end. The start header tag needs to be the thirst text in the input (aside from whitespace and line breaks). If tag is preceded by any other text, it will be interpreted as regular content that will be configured.
+The header content is enclosed by `[header]` tags - one tag at the start and one at the end. The start header tag needs to be the thirst text in the input (including whitespace and line breaks). If tag is preceded by any other text, it will be interpreted as regular content that will be configured.
 
 The content of the header is a single JSON object. In it are the declarations for the various JSON objects that can be attached to a key. Each of the declared JSON objects has a name (i.e. the key that the JSON object was declared under). This name is used to reference the JSON data from a key (the referencing is done by placing the name preceded by a `#` after the colon in the key).
+
+Headers are the preferred form of providing JSON data for keys.
 
 ### Example
 The following text is an exemplary input for the configurator.

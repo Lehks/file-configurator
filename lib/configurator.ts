@@ -1,5 +1,7 @@
 import fs from 'fs';
+import keyDataSchema from '../key-data.schema.json';
 import HeaderParser from './header-parser';
+import JSONValidator from './json-validator';
 import types from './typings/typings';
 
 namespace Configurator {
@@ -38,7 +40,7 @@ namespace Configurator {
         data: string | undefined;
     }
 
-    const cache: {[key: string]: string} = {};
+    let cache: {[key: string]: string} = {};
 
     /**
      * Configures the contents of a file.
@@ -66,12 +68,16 @@ namespace Configurator {
      * @returns The configured input.
      */
     export async function configureString(input: string, context: IContext): Promise<string> {
-        const header = await HeaderParser.getHeader(input);
+        const header = HeaderParser.getHeader(input);
         const ret = input.substring(header.raw.length);
 
         return ret.replace(makeGlobalKeyRegex(), key => {
             return makeReplacementValue(context, parseKey(key), header.processed);
         });
+    }
+
+    export function clearCache() {
+        cache = {};
     }
 
     function parseKey(key: string): IFullKey {
@@ -128,11 +134,7 @@ namespace Configurator {
 
         const data = processKeyData(getKeyData(key, header));
 
-        if (data.ignoreIfUndefined && contextValue === undefined) {
-            return data.ignoreIfUndefinedReplacement;
-        } else if (!data.switch) {
-            return `${data.padLeft}${contextValue}${data.padRight}`;
-        } else {
+        if (data.switch) {
             // return default value if the contextValue is undefined
             if (contextValue === undefined) {
                 return data.switch.default;
@@ -145,6 +147,11 @@ namespace Configurator {
                 }
             }
         }
+        if (data.ignoreIfUndefined && contextValue === undefined) {
+            return data.ignoreIfUndefinedReplacement;
+        } else {
+            return `${data.padLeft}${contextValue}${data.padRight}`;
+        }
     }
 
     function getKeyData(key: IFullKey, header: types.IHeader): types.IData {
@@ -156,7 +163,8 @@ namespace Configurator {
             const dataName = key.data.substring(1);
             return header[dataName];
         } else {
-            return JSON.parse(key.data);
+            const rawJSON = JSON.parse(key.data);
+            return JSONValidator.validate(rawJSON, keyDataSchema);
         }
     }
 

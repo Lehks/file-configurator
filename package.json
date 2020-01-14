@@ -4,7 +4,7 @@
     "description": "A glorified search-and-replace tool for files and strings.",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "build": "tsc"
     },
     "repository": {
@@ -19,11 +19,28 @@
     },
     "homepage": "https://github.com/Lehks/file-configurator#readme",
     "devDependencies": {
+        "@types/jest": "^24.0.25",
         "@types/node": "^13.1.6",
+        "jest": "^24.9.0",
+        "ts-jest": "^24.3.0",
         "tslint": "^5.20.1",
         "typescript": "^3.7.4"
     },
     "dependencies": {
         "ajv": "^6.10.2"
+    },
+    "jest": {
+        "modulePathIgnorePatterns": [
+            "/dist/"
+        ],
+        "transform": {
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "coverageDirectory": "coverage",
+        "coverageReporters": [
+            "json",
+            "lcov",
+            "clover"
+        ]
     }
 }
