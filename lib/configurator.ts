@@ -43,7 +43,7 @@ namespace Configurator {
     let cache: {[key: string]: string} = {};
 
     /**
-     * Configures the contents of a file.
+     * Asynchronously configures the contents of a file.
      *
      * @param path The path to the input file.
      * @param context The context object.
@@ -52,15 +52,29 @@ namespace Configurator {
      * @returns The configured file content as string.
      */
     export async function configure(path: string, context: IContext, options?: IFileConfigOptions): Promise<string> {
+        return configureSync(path, context, options);
+    }
+
+    /**
+     * Synchronously configures the contents of a file.
+     *
+     * @param path The path to the input file.
+     * @param context The context object.
+     * @param options Optional options that control the file encoding and cache usage.
+     *
+     * @returns The configured file content as string.
+     */
+    export function configureSync(path: string, context: IContext, options?: IFileConfigOptions): string {
+
         const processOptions = makeOptions(options);
         const input = loadFile(path, processOptions.encoding);
         cacheFile(path, input, processOptions.cache);
 
-        return configureString(input, context);
+        return configureStringSync(input, context);
     }
 
     /**
-     * Configures the contents of a string.
+     * Asynchronously configures the contents of a string.
      *
      * @param input The input string. This string will not be changed.
      * @param context The context object.
@@ -68,6 +82,18 @@ namespace Configurator {
      * @returns The configured input.
      */
     export async function configureString(input: string, context: IContext): Promise<string> {
+        return configureStringSync(input, context);
+    }
+
+    /**
+     * Synchronously configures the contents of a string.
+     *
+     * @param input The input string. This string will not be changed.
+     * @param context The context object.
+     *
+     * @returns The configured input.
+     */
+    export function configureStringSync(input: string, context: IContext): string {
         const header = HeaderParser.getHeader(input);
         const ret = input.substring(header.raw.length);
 

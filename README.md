@@ -43,9 +43,9 @@ My configured value is 'my-value'.
 As has been shown, the key `@myKey@` has been substituted with the value `my-value`.
 
 This is what happened:
-1. The configurator looked at the object that was passed as a second parameter to `FileConfigurator.configure()` (called the context object or just context).
-2. The configurator will search for the keys of the context object in the input file.
-3. Each key that exists in the context and in the input will be replaced with the value of that key in the context. Keys that only exist in one or the other will be ignored.
+1. The configurator searched the file for any keys.
+2. The configurator will look for each found key in the object that was passed as second parameter to `.configure()` (also called context object or just context).
+3. Each key in the input will be replaced with its corresponding value from the context object.
 
 ### Function Overview
 The following functions are available for usage:
@@ -55,9 +55,11 @@ The following functions are available for usage:
     - `options`: Additional options. Allowed keys are:
         - `encoding`: The encoding of the input file. Type is `string`. Default is `utf-8`.
         - `cache`: Whether the loaded file will be cached. Type is `boolean`. Default is `false`. See chapter [caching](#caching) for further information.
+- `.configureSync(path, context, options)`: The same as `.configure()`, but synchronously.
 - `.configureString(input, context)`: Configures the string that pass passed as the parameter `input` and returns the configured string in a promise.
     - `input`: The input string.
     - `context`: The context object. This is an object with strings as both keys and values.
+- `.configureStringSync(path, context, options)`: The same as `.configureString()`, but synchronously.
 
 ### Caching
 The two functions that read files (`.configure()`) share a cache for files that have been read by them. If a file is configured multiple times and it has been cached, then the cached file will be used instead of re-reading the file from the disc. A file will be cached if it is not cached yet and the option `cache` is `true` (default is `false`).
