@@ -32,7 +32,7 @@ namespace Configurator {
         /**
          * A single context entry.
          */
-        [key: string]: string | string[];
+        [key: string]: string | string[] | undefined | boolean | null;
     }
 
     interface IFullKey {
@@ -156,7 +156,7 @@ namespace Configurator {
     }
 
     function makeReplacementValue(context: IContext, key: IFullKey, header: types.IHeader): string {
-        const contextValue = context[key.name];
+        const contextValue = getContextValue(context, key);
 
         const data = processKeyData(getKeyData(key, header));
 
@@ -165,20 +165,16 @@ namespace Configurator {
             if (data.ignoreIfUndefined) {
                 return data.ignoreIfUndefinedReplacement;
             } else {
-                return contextValue;
+                return 'undefined';
             }
         } else if (typeof contextValue === 'string') {
             if (data.switch) {
-                // return default value if the contextValue is undefined
-                if (contextValue === undefined) {
-                    return data.switch.default;
+                const caseValue = data.switch.cases[contextValue];
+
+                if (caseValue) {
+                    return caseValue;
                 } else {
-                    const caseValue = data.switch.cases[contextValue];
-                    if (caseValue) {
-                        return caseValue;
-                    } else {
-                        return data.switch.default;
-                    }
+                    return data.switch.default;
                 }
             } else {
                 return `${data.padLeft}${contextValue}${data.padRight}`;
@@ -186,6 +182,21 @@ namespace Configurator {
         } else {
             return contextValue.map(v => `${data.padLeft}${v}${data.padRight}`).join(data.arrayJoin);
         }
+    }
+
+    function getContextValue(context: IContext, key: IFullKey): string | string[] | undefined {
+        const unprocessedValue = context[key.name];
+        let ret: string | string[] | undefined;
+
+        if (typeof unprocessedValue === 'boolean') {
+            ret = unprocessedValue.toString();
+        } else if (unprocessedValue === null) {
+            ret = 'null';
+        } else {
+            ret = unprocessedValue;
+        }
+
+        return ret;
     }
 
     function getKeyData(key: IFullKey, header: types.IHeader): types.IData {

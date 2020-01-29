@@ -21,6 +21,30 @@ it('should correctly do simple-search and replace', async () => {
     })).resolves.toBe('My value is value.');
 });
 
+it('should correctly transform boolean values (true)', async () => {
+    const input = 'Boolean is: @key@.';
+
+    await expect(Configurator.configureString(input, {
+        key: true
+    })).resolves.toBe('Boolean is: true.');
+});
+
+it('should correctly transform boolean values (false)', async () => {
+    const input = 'Boolean is: @key@.';
+
+    await expect(Configurator.configureString(input, {
+        key: false
+    })).resolves.toBe('Boolean is: false.');
+});
+
+it('should correctly transform null values', async () => {
+    const input = 'Null is: @key@.';
+
+    await expect(Configurator.configureString(input, {
+        key: null
+    })).resolves.toBe('Null is: null.');
+});
+
 it('should correctly insert left padding', async () => {
     const input = 'My value is @key:{"padLeft": "padLeft:"}@.';
 
