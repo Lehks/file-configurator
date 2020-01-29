@@ -1,6 +1,6 @@
 {
     "name": "file-configurator",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A glorified search-and-replace tool for files and strings.",
     "main": "dist/lib/configurator.js",
     "typings": "dist/lib/configurator.d.ts",
