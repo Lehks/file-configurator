@@ -21,6 +21,12 @@ it('should correctly do simple-search and replace', async () => {
     })).resolves.toBe('My value is value.');
 });
 
+it('should correctly do simple-search and replace using the dollar notation', async () => {
+    await expect(Configurator.configureString('My value is $key$.', {
+        key: 'value'
+    })).resolves.toBe('My value is value.');
+});
+
 it('should correctly transform boolean values (true)', async () => {
     const input = 'Boolean is: @key@.';
 
@@ -111,6 +117,31 @@ it('should correctly select a case in a switch statement #2', async () => {
     await expect(Configurator.configureString(input, {
         key: 'second'
     })).resolves.toBe('The selected case is: second-case.');
+});
+
+it('should correctly configure the selected value in a a switch statement', async () => {
+    const header = {
+        other: {
+            padLeft: '->'
+        }
+    };
+
+    const data = {
+        switch: {
+            cases: {
+                first: 'first-case',
+                second: '$other:#other$'
+            },
+            default: 'default-case'
+        }
+    };
+
+    const input = `[header]${JSON.stringify(header)}[header]The selected case is: @key:${JSON.stringify(data)}@.`;
+
+    await expect(Configurator.configureString(input, {
+        key: 'second',
+        other: 'other'
+    })).resolves.toBe('The selected case is: ->other.');
 });
 
 it('should select the default case in a switch statement if necessary', async () => {

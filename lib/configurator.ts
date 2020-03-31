@@ -107,7 +107,8 @@ namespace Configurator {
     }
 
     function parseKey(key: string): IFullKey {
-        const matches = key.match(makeKeyDataRegex())!;
+        const matches = key.match(makeKeyDataRegex(key.startsWith('$')))!;
+
         return {
             name: matches[1],
             data: matches[2]
@@ -148,11 +149,15 @@ namespace Configurator {
     }
 
     function makeGlobalKeyRegex(): RegExp {
-        return /@.*?@/g;
+        return /(@.*?@)|((\$.*?\$))/g;
     }
 
-    function makeKeyDataRegex(): RegExp {
-        return /@(.*?)(?::(.+?))?@/;
+    function makeKeyDataRegex(useDollar: boolean): RegExp {
+        if(useDollar) {
+            return /[$](.*?)(?::(.+?))?[$]/;
+        } else {
+            return /@(.*?)(?::(.+?))?@/;
+        }
     }
 
     function makeReplacementValue(context: IContext, key: IFullKey, header: types.IHeader): string {
@@ -170,12 +175,9 @@ namespace Configurator {
         } else if (typeof contextValue === 'string') {
             if (data.switch) {
                 const caseValue = data.switch.cases[contextValue];
+                const value = caseValue !== undefined ? caseValue : data.switch.default;
 
-                if (caseValue) {
-                    return caseValue;
-                } else {
-                    return data.switch.default;
-                }
+                return configureStringSync(`[header]${JSON.stringify(header)}[header]${value}`, context);
             } else {
                 return `${data.padLeft}${contextValue}${data.padRight}`;
             }

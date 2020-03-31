@@ -42,7 +42,7 @@ the output would be:
 My configured value is 'my-value'.
 ```
 
-As has been shown, the key `@myKey@` has been substituted with the value `my-value`.
+As has been shown, the key `@myKey@` has been substituted with the value `my-value`. It is also possible to use `$` instead of `@`. However, the two can not be mixed within a single key (for example, `@myKey$` is not a valid key).
 
 This is what happened:
 1. The configurator searched the file for any keys.
@@ -101,7 +101,7 @@ There are a lot of predefined keys that can be used in this JSON data:
 - `padRight`: A string that will be placed right of the replacement value. Type is `string`. Default is an empty string. If the value type is an array, then the padding will be applied to each line before joining them.
 - `ignoreIfUndefined`: If the replacement value is `undefined`, then the key will be replaced with the value in `ignoreIfUndefinedReplacement` (Since `ignoreIfUndefinedReplacement` is an empty string by default, the behavior of `ignoreIfUndefined` is usually that the key will simply be removed from the input, hence the term 'ignore'). Type is `boolean`. Default is `true`.
 - `ignoreIfUndefinedReplacement`: The value that will be used as replacement value if the rule `ignoreIfUndefinedReplacement` is triggered. Note that this value will not be padded by the value(s) in `padLeft` and `padRight`.
-- `switch`: When this key is used, the behavior of the replacement will be changed entirely. Instead of using the value in the context as replacement value, it will be used as a condition to select the actual value from a list of predefined values. The type is object, see the following properties. The default is `undefined` - i.e. the default behavior will be used instead of the switch behavior. The behavior of a switch replacement is rather similar to that of a `switch` statement from a programming language like JavaScript. Only has an effect if the value type is a string.
+- `switch`: When this key is used, the behavior of the replacement will be changed entirely. Instead of using the value in the context as replacement value, it will be used as a condition to select the actual value from a list of predefined values. The type is object, see the following properties. The default is `undefined` - i.e. the default behavior will be used instead of the switch behavior. The behavior of a switch replacement is rather similar to that of a `switch` statement from a programming language like JavaScript. Only has an effect if the value type is a string. The value that the switch produces will again be configured if that value is a regular key (with the same context and header as the original input). In this case, the keys using `$` are very important to avoid parsing issues.
 - `switch.cases`: An object that maps the possible values from the context to the values that will actually be used. Each key in this object is a possible value from the context and each value is its corresponding replacement value. The type is an object, that has strings as both keys and values. This property is always required, hence no default.
 - `switch.default`: The replacement value that will be used if none of the cases in `switch.cases` match the context-value. The type is string. Default is an empty string.
 - `arrayJoin`: A string that will be used to join the values in an array. Only has any effect if the value type is an array.
