@@ -40,7 +40,7 @@ namespace Configurator {
         data: string | undefined;
     }
 
-    let cache: {[key: string]: string} = {};
+    let cache: { [key: string]: string } = {};
 
     /**
      * Asynchronously configures the contents of a file.
@@ -65,7 +65,6 @@ namespace Configurator {
      * @returns The configured file content as string.
      */
     export function configureSync(path: string, context: IContext, options?: IFileConfigOptions): string {
-
         const processOptions = makeOptions(options);
         const input = loadFile(path, processOptions.encoding);
         cacheFile(path, input, processOptions.cache);
@@ -102,12 +101,12 @@ namespace Configurator {
         });
     }
 
-    export function clearCache() {
+    export function clearCache(): void {
         cache = {};
     }
 
     function parseKey(key: string): IFullKey {
-        const matches = key.match(makeKeyDataRegex(key.startsWith('$')))!;
+        const matches = makeKeyDataRegex(key.startsWith('$')).exec(key)!;
 
         return {
             name: matches[1],
@@ -142,7 +141,7 @@ namespace Configurator {
         }
     }
 
-    function cacheFile(path: string, input: string, shouldCache: boolean) {
+    function cacheFile(path: string, input: string, shouldCache: boolean): void {
         if (shouldCache && !cache[path]) {
             cache[path] = input;
         }
@@ -153,7 +152,7 @@ namespace Configurator {
     }
 
     function makeKeyDataRegex(useDollar: boolean): RegExp {
-        if(useDollar) {
+        if (useDollar) {
             return /[$](.*?)(?::(.+?))?[$]/;
         } else {
             return /@(.*?)(?::(.+?))?@/;

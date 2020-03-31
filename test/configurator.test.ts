@@ -16,55 +16,69 @@ it('should correctly removed the head', async () => {
 });
 
 it('should correctly do simple-search and replace', async () => {
-    await expect(Configurator.configureString('My value is @key@.', {
-        key: 'value'
-    })).resolves.toBe('My value is value.');
+    await expect(
+        Configurator.configureString('My value is @key@.', {
+            key: 'value'
+        })
+    ).resolves.toBe('My value is value.');
 });
 
 it('should correctly do simple-search and replace using the dollar notation', async () => {
-    await expect(Configurator.configureString('My value is $key$.', {
-        key: 'value'
-    })).resolves.toBe('My value is value.');
+    await expect(
+        Configurator.configureString('My value is $key$.', {
+            key: 'value'
+        })
+    ).resolves.toBe('My value is value.');
 });
 
 it('should correctly transform boolean values (true)', async () => {
     const input = 'Boolean is: @key@.';
 
-    await expect(Configurator.configureString(input, {
-        key: true
-    })).resolves.toBe('Boolean is: true.');
+    await expect(
+        Configurator.configureString(input, {
+            key: true
+        })
+    ).resolves.toBe('Boolean is: true.');
 });
 
 it('should correctly transform boolean values (false)', async () => {
     const input = 'Boolean is: @key@.';
 
-    await expect(Configurator.configureString(input, {
-        key: false
-    })).resolves.toBe('Boolean is: false.');
+    await expect(
+        Configurator.configureString(input, {
+            key: false
+        })
+    ).resolves.toBe('Boolean is: false.');
 });
 
 it('should correctly transform null values', async () => {
     const input = 'Null is: @key@.';
 
-    await expect(Configurator.configureString(input, {
-        key: null
-    })).resolves.toBe('Null is: null.');
+    await expect(
+        Configurator.configureString(input, {
+            key: null
+        })
+    ).resolves.toBe('Null is: null.');
 });
 
 it('should correctly insert left padding', async () => {
     const input = 'My value is @key:{"padLeft": "padLeft:"}@.';
 
-    await expect(Configurator.configureString(input, {
-        key: 'value'
-    })).resolves.toBe('My value is padLeft:value.');
+    await expect(
+        Configurator.configureString(input, {
+            key: 'value'
+        })
+    ).resolves.toBe('My value is padLeft:value.');
 });
 
 it('should correctly insert right padding', async () => {
     const input = 'My value is @key:{"padRight": ":padRight"}@.';
 
-    await expect(Configurator.configureString(input, {
-        key: 'value'
-    })).resolves.toBe('My value is value:padRight.');
+    await expect(
+        Configurator.configureString(input, {
+            key: 'value'
+        })
+    ).resolves.toBe('My value is value:padRight.');
 });
 
 it('should ignore a key if it is configured like that', async () => {
@@ -96,9 +110,11 @@ it('should correctly select a case in a switch statement #1', async () => {
 
     const input = `The selected case is: @key:${JSON.stringify(data)}@.`;
 
-    await expect(Configurator.configureString(input, {
-        key: 'first'
-    })).resolves.toBe('The selected case is: first-case.');
+    await expect(
+        Configurator.configureString(input, {
+            key: 'first'
+        })
+    ).resolves.toBe('The selected case is: first-case.');
 });
 
 it('should correctly select a case in a switch statement #2', async () => {
@@ -114,9 +130,11 @@ it('should correctly select a case in a switch statement #2', async () => {
 
     const input = `The selected case is: @key:${JSON.stringify(data)}@.`;
 
-    await expect(Configurator.configureString(input, {
-        key: 'second'
-    })).resolves.toBe('The selected case is: second-case.');
+    await expect(
+        Configurator.configureString(input, {
+            key: 'second'
+        })
+    ).resolves.toBe('The selected case is: second-case.');
 });
 
 it('should correctly configure the selected value in a a switch statement', async () => {
@@ -138,10 +156,12 @@ it('should correctly configure the selected value in a a switch statement', asyn
 
     const input = `[header]${JSON.stringify(header)}[header]The selected case is: @key:${JSON.stringify(data)}@.`;
 
-    await expect(Configurator.configureString(input, {
-        key: 'second',
-        other: 'other'
-    })).resolves.toBe('The selected case is: ->other.');
+    await expect(
+        Configurator.configureString(input, {
+            key: 'second',
+            other: 'other'
+        })
+    ).resolves.toBe('The selected case is: ->other.');
 });
 
 it('should select the default case in a switch statement if necessary', async () => {
@@ -157,9 +177,11 @@ it('should select the default case in a switch statement if necessary', async ()
 
     const input = `The selected case is: @key:${JSON.stringify(data)}@.`;
 
-    await expect(Configurator.configureString(input, {
-        key: 'invalid'
-    })).resolves.toBe('The selected case is: default-case.');
+    await expect(
+        Configurator.configureString(input, {
+            key: 'invalid'
+        })
+    ).resolves.toBe('The selected case is: default-case.');
 });
 
 it('should default the default case in a switch statement to an empty string', async () => {
@@ -186,15 +208,19 @@ it('should correctly pad and join arrays', async () => {
 
     const input = `The configured array is: @key:${JSON.stringify(data)}@.`;
 
-    await expect(Configurator.configureString(input, {
-        key: ['a', 'b', 'c']
-    })).resolves.toBe('The configured array is: >a<->b<->c<.');
+    await expect(
+        Configurator.configureString(input, {
+            key: ['a', 'b', 'c']
+        })
+    ).resolves.toBe('The configured array is: >a<->b<->c<.');
 });
 
 it('should be able to use JSON data that is defined directly in the key', async () => {
-    await expect(Configurator.configureString('My value is @key:{"padLeft": "padLeft:"}@.', {
-        key: 'value'
-    })).resolves.toBe('My value is padLeft:value.');
+    await expect(
+        Configurator.configureString('My value is @key:{"padLeft": "padLeft:"}@.', {
+            key: 'value'
+        })
+    ).resolves.toBe('My value is padLeft:value.');
 });
 
 it('should be able to use JSON data that is defined in the header', async () => {
@@ -204,36 +230,52 @@ it('should be able to use JSON data that is defined in the header', async () => 
         }
     };
 
-    await expect(Configurator.configureString(`[header]${JSON.stringify(data)}[header]My value is @key:#data@.`, {
-        key: 'value'
-    })).resolves.toBe('My value is padLeft:value.');
+    await expect(
+        Configurator.configureString(`[header]${JSON.stringify(data)}[header]My value is @key:#data@.`, {
+            key: 'value'
+        })
+    ).resolves.toBe('My value is padLeft:value.');
 });
 
 it('should correctly load and configure file content', async () => {
-    await expect(Configurator.configure(path.join(__dirname, 'test-file.txt.in'), {
-        key: 'value'
-    })).resolves.toBe('This is a test file. The value is: value.');
+    await expect(
+        Configurator.configure(path.join(__dirname, 'test-file.txt.in'), {
+            key: 'value'
+        })
+    ).resolves.toBe('This is a test file. The value is: value.');
 });
 
 it('should correctly cache files if caching is enabled', async () => {
     const spy = jest.spyOn(fs, 'readFileSync');
     const filePath = path.join(__dirname, 'test-file.txt.in');
 
-    await expect(Configurator.configure(filePath, {
-        key: 'value'
-    }, {
-        cache: true
-    })).resolves.toBe('This is a test file. The value is: value.');
+    await expect(
+        Configurator.configure(
+            filePath,
+            {
+                key: 'value'
+            },
+            {
+                cache: true
+            }
+        )
+    ).resolves.toBe('This is a test file. The value is: value.');
 
     expect(spy).toHaveBeenCalledTimes(1);
 
     spy.mockReturnValueOnce('This is another text. The value is: @key@.');
 
-    await expect(Configurator.configure(filePath, {
-        key: 'value'
-    }, {
-        cache: true
-    })).resolves.toBe('This is a test file. The value is: value.');
+    await expect(
+        Configurator.configure(
+            filePath,
+            {
+                key: 'value'
+            },
+            {
+                cache: true
+            }
+        )
+    ).resolves.toBe('This is a test file. The value is: value.');
 
     expect(spy).toHaveBeenCalledTimes(1);
 });
@@ -242,31 +284,47 @@ it('should correctly cache files if caching is enabled', async () => {
     const spy = jest.spyOn(fs, 'readFileSync');
     const filePath = path.join(__dirname, 'test-file.txt.in');
 
-    await expect(Configurator.configure(filePath, {
-        key: 'value'
-    }, {
-        cache: false
-    })).resolves.toBe('This is a test file. The value is: value.');
+    await expect(
+        Configurator.configure(
+            filePath,
+            {
+                key: 'value'
+            },
+            {
+                cache: false
+            }
+        )
+    ).resolves.toBe('This is a test file. The value is: value.');
 
     expect(spy).toHaveBeenCalledTimes(1);
 
     spy.mockReturnValueOnce('This is another text. The value is: @key@.');
 
-    await expect(Configurator.configure(filePath, {
-        key: 'value'
-    }, {
-        cache: false
-    })).resolves.toBe('This is another text. The value is: value.');
+    await expect(
+        Configurator.configure(
+            filePath,
+            {
+                key: 'value'
+            },
+            {
+                cache: false
+            }
+        )
+    ).resolves.toBe('This is another text. The value is: value.');
 
     expect(spy).toHaveBeenCalledTimes(2);
 });
 
 it('should use the correct encoding', async () => {
-    const output = await Configurator.configure(path.join(__dirname, 'test-file-utf-16le.txt.in'), {
-        key: 'value'
-    }, {
-        encoding: 'utf-16le'
-    });
+    const output = await Configurator.configure(
+        path.join(__dirname, 'test-file-utf-16le.txt.in'),
+        {
+            key: 'value'
+        },
+        {
+            encoding: 'utf-16le'
+        }
+    );
 
     const compareFile = fs.readFileSync(path.join(__dirname, 'test-file-utf-16le.txt'), 'utf-16le');
 
@@ -276,26 +334,32 @@ it('should use the correct encoding', async () => {
 it('should throw if key JSON data is malformed', async () => {
     const input = 'My value is @key:invalid-json@.';
 
-    await expect(Configurator.configureString(input, {
-        key: 'value'
-    })).rejects.toBeDefined();
+    await expect(
+        Configurator.configureString(input, {
+            key: 'value'
+        })
+    ).rejects.toBeDefined();
 });
 
 it('should throw if key JSON data can not be validated', async () => {
     const input = 'My value is @key:{"invalidKey": "value"}@.';
 
-    await expect(Configurator.configureString(input, {
-        key: 'value'
-    })).rejects.toBeDefined();
+    await expect(
+        Configurator.configureString(input, {
+            key: 'value'
+        })
+    ).rejects.toBeDefined();
 });
 
 it('should configure a complex input file', async () => {
     const input = fs.readFileSync(path.join(__dirname, 'complex.txt.in'), 'utf-8');
 
-    await expect(Configurator.configureString(input, {
-        padded1: 'value',
-        padded2: 'value2',
-        switch1: 'first',
-        switch2: 'second'
-    })).rejects.toBeDefined();
+    await expect(
+        Configurator.configureString(input, {
+            padded1: 'value',
+            padded2: 'value2',
+            switch1: 'first',
+            switch2: 'second'
+        })
+    ).rejects.toBeDefined();
 });

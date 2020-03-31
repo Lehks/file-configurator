@@ -1,4 +1,3 @@
-
 export interface IHeader {
     [k: string]: IData;
 }

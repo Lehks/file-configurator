@@ -22,9 +22,7 @@
                 "switch": {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": [
-                        "cases"
-                    ],
+                    "required": ["cases"],
                     "properties": {
                         "cases": {
                             "type": "object",

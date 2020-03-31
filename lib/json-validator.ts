@@ -8,7 +8,7 @@ namespace JSONValidator {
 
         const validateFunction = ajv.compile(schema);
         const valid = validateFunction(object);
-        delete (object as any).default; // remove default property which is added by ajv
+        delete object.default; // remove default property which is added by ajv
 
         if (valid) {
             return object as T;
@@ -18,18 +18,20 @@ namespace JSONValidator {
     }
 
     // for some reason, this can not be a member of class ValidationError
-    function formatErrors(errors: Ajv.ErrorObject[]) {
-        return errors.map(e => formatError(e)).join(';');
+    function formatErrors(errors: Ajv.ErrorObject[]): string {
+        return errors.map(error => formatError(error)).join(';');
     }
 
     // for some reason, this can not be a member of class ValidationError
     function formatError(error: Ajv.ErrorObject): string {
-        return `Validation failed with message: '${error.message}'. ` +
-            `Constraint '${error.schemaPath}' failed for '${error.dataPath}'.`;
+        return (
+            `Validation failed with message: '${error.message}'. ` +
+            `Constraint '${error.schemaPath}' failed for '${error.dataPath}'.`
+        );
     }
 
     export class ValidationError extends Error {
-        public readonly errors: Array<Ajv.ErrorObject & {fullMessage: string}>;
+        public readonly errors: (Ajv.ErrorObject & { fullMessage: string })[];
 
         public constructor(errors: Ajv.ErrorObject[]) {
             super();
@@ -37,7 +39,7 @@ namespace JSONValidator {
             this.errors = [];
 
             for (const error of errors) {
-                this.errors.push({...error, fullMessage: ''});
+                this.errors.push({ ...error, fullMessage: '' });
                 this.errors[this.errors.length - 1].fullMessage = formatError(error);
             }
         }
